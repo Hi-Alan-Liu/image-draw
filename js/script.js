@@ -21,6 +21,10 @@ let drawing = false;
 var min = 5, max = 15, select = document.getElementById('lineSize');
 var imageResult;
 
+window.addEventListener('touchstart', func, { passive: false });
+window.addEventListener('touchmove', func, { passive: false });
+window.addEventListener('touchend', func, { passive: false });
+
 for (var i = min; i <= max; i++) {
   var opt = document.createElement('option');
   opt.value = i;
