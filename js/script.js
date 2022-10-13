@@ -30,33 +30,13 @@ for (var i = min; i <= max; i++){
     select.appendChild(opt);
 }
 
-canvas.addEventListener('pointerdown', event => {
-  event.preventDefault();
+canvas.addEventListener('mousemove', pointermove);
+canvas.addEventListener('mousedown', pointerdown);
+canvas.addEventListener('mouseup', pointerup);
 
-  var color = document.getElementById("colorpicker").value;
-  var size = document.getElementById("lineSize").value;
-  updatePosition(event);
-  ctx.beginPath();
-  ctx.moveTo(position.x, position.y)
-  ctx.arc(position.x, position.y, ctx.lineWidth / 4, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = size;
-  drawing = true;
-});
-
-canvas.addEventListener('pointermove', event => {
-  if (!drawing) return;
-  event.preventDefault();
-  updatePosition(event);
-  ctx.lineTo(position.x, position.y);
-  ctx.stroke();
-});
-
-canvas.addEventListener('pointerup', event => {
-  ctx.closePath();
-  drawing = false;
-});
+document.addEventListener('touchstart', pointerdown);
+document.addEventListener('touchmove', pointermove);
+document.addEventListener('touchend', pointerup);
 
 canvas.addEventListener ("mouseout", event => {
   ctx.closePath();
@@ -80,6 +60,33 @@ document.getElementById("inputFile").onchange = function() {
   }); 
     
   fileReader.readAsDataURL(this.files[0]);
+}
+
+function pointerdown() {
+  event.preventDefault();
+  var color = document.getElementById("colorpicker").value;
+  var size = document.getElementById("lineSize").value;
+  updatePosition(event);
+  ctx.beginPath();
+  ctx.moveTo(position.x, position.y)
+  ctx.arc(position.x, position.y, ctx.lineWidth / 4, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = size;
+  drawing = true;
+}
+
+function pointermove() {
+  if (!drawing) return;
+  event.preventDefault();
+  updatePosition(event);
+  ctx.lineTo(position.x, position.y);
+  ctx.stroke();
+}
+
+function pointerup() {
+  ctx.closePath();
+  drawing = false;
 }
 
 function make_base(img)
