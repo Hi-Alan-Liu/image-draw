@@ -19,7 +19,7 @@
         <div class="col-12 col-md-4 my-2">
           <div class="input-group h-100">
             <span class="input-group-text" id="panColor">筆刷顏色</span>
-            <input type="color" class="form-control h-100" id="colorpicker" aria-describedby="panColor" value="#000000">
+            <input type="color" class="form-control h-100" id="colorpicker" aria-describedby="panColor" value="#0000FF">
           </div>
         </div>
 
@@ -36,7 +36,8 @@
         <canvas class="border border-dark" width="800px" height="800px" id="art"></canvas>
       </div>
 
-      <button type="button" download="dl.png" id="saveCanvas" class="btn btn-primary mt-2 float-end">生成圖片</button>
+      <button type="button" id="clearCanvas" class="btn btn-warning mt-2">清除軌跡</button>
+      <button type="button" id="saveCanvas" class="btn btn-primary mt-2 float-end">生成圖片</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
