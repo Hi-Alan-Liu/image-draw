@@ -21,6 +21,9 @@ let drawing = false;
 var min = 5, max = 15, select = document.getElementById('lineSize');
 var imageResult;
 
+let track = []
+let current_track;
+
 window.addEventListener('touchstart', { passive: false });
 window.addEventListener('touchmove', { passive: false });
 window.addEventListener('touchend', { passive: false });
@@ -32,6 +35,7 @@ for (var i = min; i <= max; i++) {
   select.appendChild(opt);
 }
 select.value = 5;
+current_track = canvas.toDataURL("image/png");
 
 canvas.addEventListener('mousemove', pointermove);
 canvas.addEventListener('mousedown', pointerdown);
@@ -71,6 +75,20 @@ document.getElementById("saveCanvas").onclick = function() {
   image.click();
 }
 
+document.getElementById("back").onclick = function() {
+  if (track.length < 1) return
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  current_track = track[track.length];
+  drawImage(track[track.length - 1]);
+  track.pop();
+}
+
+document.getElementById("recovery").onclick = function() {
+  if (current_track < 1) return
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawImage(current_track);
+}
+
 function pointerdown(event, isTouch) {
   var color = document.getElementById("colorpicker").value;
   var size = document.getElementById("lineSize").value;
@@ -92,16 +110,19 @@ function pointermove(event, isTouch) {
 }
 
 function pointerup() {
+  recordTrack();
   ctx.closePath();
   drawing = false;
 }
 
-function make_base()
-{
+function make_base(){
   if (imageResult === undefined) return;
-  var baseImage = new Image();
-  baseImage.src = `${imageResult}`;
+  drawImage(imageResult);
+}
 
+function drawImage(img) {
+  var baseImage = new Image();
+  baseImage.src = `${img}`;
   baseImage.onload = function () {
     var wrh = baseImage.width / baseImage.height;
     var newWidth = canvas.width;
@@ -115,4 +136,10 @@ function make_base()
 
     ctx.drawImage(baseImage, xOffset, yOffset, newWidth, newHeight);
   }
+}
+
+function recordTrack() {
+  if (current_track != undefined) { track.push(current_track); }
+  if (track.length > 5) { track.shift(); }
+  current_track = canvas.toDataURL("image/png");
 }
