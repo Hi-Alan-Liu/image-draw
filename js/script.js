@@ -77,7 +77,6 @@ document.getElementById("saveCanvas").onclick = function() {
 
 document.getElementById("back").onclick = function() {
   if (track.length < 1) return
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   current_track = track[track.length];
   drawImage(track[track.length - 1]);
   track.pop();
@@ -136,10 +135,11 @@ function drawImage(img) {
 
     ctx.drawImage(baseImage, xOffset, yOffset, newWidth, newHeight);
   }
+  recordTrack();
 }
 
 function recordTrack() {
   if (current_track != undefined) { track.push(current_track); }
-  if (track.length > 5) { track.shift(); }
+  // if (track.length > 5) { track.shift(); }
   current_track = canvas.toDataURL("image/png");
 }
